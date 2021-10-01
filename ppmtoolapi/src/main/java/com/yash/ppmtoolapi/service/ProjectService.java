@@ -15,21 +15,13 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepository;
 
-//	@Autowired
-//	private BacklogRepository backlogRepository;
 
 	public Project saveOrUpdate(Project project) {
 		try {
 			project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 			System.out.println("Project ID "+project.getId());
-			Long id = project.getId();
+			Long Id = project.getId();
 			projectRepository.save(project);
-//			if(id!=project.getId()) {
-//				Backlog backlog = new Backlog();
-//				backlog.setProjectIdentifier(project.getProjectIdentifier());
-//				backlog.setProject(project);
-//				backlogRepository.save(backlog);
-//			}
 
 			Project savedProject = projectRepository.save(project);
 			return savedProject;
@@ -38,14 +30,12 @@ public class ProjectService {
 			throw new ProjectIDException("Project Identifier"+ project.getProjectIdentifier().toUpperCase() +"Already Exists" );
 		}
 	}
-	
+
 	public void deleteProjectByProjectIdentifier(String projectIdentifier) {
 		Project project = projectRepository.findByProjectIdentifier(projectIdentifier);
 		if(project == null) {
 			throw new ProjectIDException("Project Identifier " + projectIdentifier.toUpperCase()+ " not exists");
 		}
-//		Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
-//		backlogRepository.delete(backlog);
 		projectRepository.delete(project);
 
 	}
